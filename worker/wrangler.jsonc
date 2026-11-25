@@ -5,8 +5,8 @@
   "compatibility_date": "2025-11-01",
   "workers_dev": true,
   "vars": {
-    "SUPPORT_TO_EMAIL": "t.naji@tribonds.net",
-    "SUPPORT_FROM_EMAIL": "Arcward Theme Support <support@tribonds.net>",
+    "SUPPORT_TO_EMAIL": "care@lolly.ae",
+    "SUPPORT_FROM_EMAIL": "Arcward Theme Support <care@lolly.ae>",
     "SUPPORT_SUCCESS_URL": "https://tareq7.github.io/arcward-support/thanks.html",
     "SUPPORT_FORM_URL": "https://tareq7.github.io/arcward-support/",
     "SUPPORT_ORIGIN": "https://tareq7.github.io"

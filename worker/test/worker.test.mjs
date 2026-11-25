@@ -4,8 +4,8 @@ import { handleRequest, resetRateLimiterForTests } from '../src/index.mjs';
 
 const baseEnv = {
   ARCWARD_RESEND_API_KEY: 're_test_mock_key_not_real',
-  SUPPORT_FROM_EMAIL: 'Arcward Theme Support <support@tribonds.net>',
-  SUPPORT_TO_EMAIL: 't.naji@tribonds.net',
+  SUPPORT_FROM_EMAIL: 'Arcward Theme Support <care@lolly.ae>',
+  SUPPORT_TO_EMAIL: 'care@lolly.ae',
   SUPPORT_SUCCESS_URL: 'https://tareq7.github.io/arcward-support/thanks.html',
   SUPPORT_ORIGIN: 'https://tareq7.github.io',
 };
@@ -52,7 +52,7 @@ test('POST /submit fails closed with 503 when ARCWARD_RESEND_API_KEY is absent',
   assert.equal(res.status, 503);
   const body = await res.json();
   assert.equal(body.ok, false);
-  assert.match(body.error, /t\.naji@tribonds\.net/);
+  assert.match(body.error, /care@lolly\.ae/);
 });
 
 test('POST /submit rejects CRLF email injection and invalid attachments', async () => {
@@ -89,7 +89,7 @@ test('POST /submit traps honeypot submissions without calling Resend', async () 
   assert.equal(calls, 0);
 });
 
-test('POST /submit sends ticket + PNG attachment to t.naji@tribonds.net AND 2-business-day auto-responder to merchant, redirecting 303', async () => {
+test('POST /submit sends ticket + PNG attachment to care@lolly.ae AND 2-business-day auto-responder to merchant, redirecting 303', async () => {
   resetRateLimiterForTests();
   const sent = [];
   const fakeFetch = async (url, init) => {
@@ -110,10 +110,10 @@ test('POST /submit sends ticket + PNG attachment to t.naji@tribonds.net AND 2-bu
   assert.equal(res.headers.get('location'), 'https://tareq7.github.io/arcward-support/thanks.html?ref=em_1');
   assert.equal(sent.length, 2);
 
-  // 1) Support ticket to t.naji@tribonds.net
-  assert.deepEqual(sent[0].body.to, ['t.naji@tribonds.net']);
+  // 1) Support ticket to care@lolly.ae
+  assert.deepEqual(sent[0].body.to, ['care@lolly.ae']);
   assert.equal(sent[0].body.reply_to, 'merchant@example.com');
-  assert.equal(sent[0].body.from, 'Arcward Theme Support <support@tribonds.net>');
+  assert.equal(sent[0].body.from, 'Arcward Theme Support <care@lolly.ae>');
   assert.match(sent[0].body.subject, /Hero slideshow question/);
   assert.equal(sent[0].body.attachments.length, 1);
   assert.equal(sent[0].body.attachments[0].filename, 'bug_screenshot.png');
@@ -123,7 +123,7 @@ test('POST /submit sends ticket + PNG attachment to t.naji@tribonds.net AND 2-bu
 
   // 2) Auto-responder to merchant
   assert.deepEqual(sent[1].body.to, ['merchant@example.com']);
-  assert.equal(sent[1].body.reply_to, 't.naji@tribonds.net');
+  assert.equal(sent[1].body.reply_to, 'care@lolly.ae');
   assert.match(sent[1].body.text, /2 business days/);
   assert.match(sent[1].body.text, /em_1/);
 });

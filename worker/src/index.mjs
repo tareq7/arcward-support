@@ -114,7 +114,7 @@ function respondError(request, env, status, message) {
       headers: { 'Content-Type': 'application/json; charset=utf-8', ...corsHeaders(env) },
     });
   }
-  const supportEmail = env.SUPPORT_TO_EMAIL || 't.naji@tribonds.net';
+  const supportEmail = env.SUPPORT_TO_EMAIL || 'care@lolly.ae';
   const backUrl = env.SUPPORT_FORM_URL || 'https://tareq7.github.io/arcward-support/';
   const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Support Request Notice — Arcward</title><style>body{font:16px/1.6 system-ui,sans-serif;max-width:640px;margin:3rem auto;padding:0 1.25rem;background:#faf9f6;color:#171614}.card{background:#fff;border:1px solid #d8d3c8;border-radius:12px;padding:1.75rem}a{color:#184e4a;font-weight:600}</style></head><body><main class="card"><h1>Could not submit support request</h1><p>${escapeHtml(message)}</p><p>You can return to the <a href="${escapeHtml(backUrl)}">support form</a> or email us directly at <a href="mailto:${escapeHtml(supportEmail)}">${escapeHtml(supportEmail)}</a>.</p></main></body></html>`;
   return new Response(html, {
@@ -157,8 +157,8 @@ export async function handleRequest(request, env = {}, deps = {}) {
       service: 'arcward-support-api',
       provider: 'resend',
       resendConfigured: Boolean(env.ARCWARD_RESEND_API_KEY),
-      fromAddress: env.SUPPORT_FROM_EMAIL || 'Arcward Theme Support <support@tribonds.net>',
-      supportRecipient: env.SUPPORT_TO_EMAIL || 't.naji@tribonds.net',
+      fromAddress: env.SUPPORT_FROM_EMAIL || 'Arcward Theme Support <care@lolly.ae>',
+      supportRecipient: env.SUPPORT_TO_EMAIL || 'care@lolly.ae',
       freeTier: true,
       slaBusinessDays: 2,
     }), {
@@ -176,7 +176,7 @@ export async function handleRequest(request, env = {}, deps = {}) {
 
   const clientIp = request.headers.get('cf-connecting-ip') || '';
   if (!checkRateLimit(clientIp, now)) {
-    return respondError(request, env, 429, 'Too many support requests from this network. Please wait a few minutes or email t.naji@tribonds.net directly.');
+    return respondError(request, env, 429, 'Too many support requests from this network. Please wait a few minutes or email care@lolly.ae directly.');
   }
 
   let formData;
@@ -253,12 +253,12 @@ export async function handleRequest(request, env = {}, deps = {}) {
       request,
       env,
       503,
-      'Online support form delivery is pending domain sender activation. Please email your request directly to t.naji@tribonds.net and we will reply within 2 business days.'
+      'Online support form delivery is pending domain sender activation. Please email your request directly to care@lolly.ae and we will reply within 2 business days.'
     );
   }
 
-  const fromAddress = (env.SUPPORT_FROM_EMAIL || 'Arcward Theme Support <support@tribonds.net>').trim();
-  const toAddress = (env.SUPPORT_TO_EMAIL || 't.naji@tribonds.net').trim();
+  const fromAddress = (env.SUPPORT_FROM_EMAIL || 'Arcward Theme Support <care@lolly.ae>').trim();
+  const toAddress = (env.SUPPORT_TO_EMAIL || 'care@lolly.ae').trim();
   const submittedAt = new Date(now).toISOString();
 
   const ticketText = [
@@ -301,7 +301,7 @@ export async function handleRequest(request, env = {}, deps = {}) {
   try {
     ticketRes = await sendResendEmail(fetchImpl, apiKey, ticketPayload);
   } catch {
-    return respondError(request, env, 502, 'We could not deliver your request right now. Please email t.naji@tribonds.net directly.');
+    return respondError(request, env, 502, 'We could not deliver your request right now. Please email care@lolly.ae directly.');
   }
 
   const ticketId = ticketRes.id || 'received';
