@@ -18,7 +18,7 @@ function makeForm(overrides = {}) {
     email: 'merchant@example.com',
     store_url: 'https://demo-merchant.myshopify.com',
     theme_name: 'Arcward (Home)',
-    theme_version: '0.1.0',
+    theme_version: '1.0.0',
     _subject: 'Hero slideshow question',
     description: 'How do I add a second slide in the Arcward Home hero carousel?',
     _honey: '',
